@@ -8,6 +8,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 
+"""
+华强电子 验证码识别
+侵权删
+"""
 
 def down_img():
     headers = {
@@ -15,7 +19,7 @@ def down_img():
         "Host": "www.hqew.com",
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
     }
-    for _ in range(1, 2):
+    for _ in range(1, 10):
         img = requests.get(
             'http://www.hqew.com/robottocheck/image', headers=headers).content
         get_text(img)
@@ -24,7 +28,7 @@ def down_img():
 def get_text(img_byte):
     im = Image.open(BytesIO(img_byte))
     # 去底色
-    im = im.point(lambda i: 255 if i > 150 else 0)
+    im = im.point(lambda i: 255 if i > 180 else 0)
 
     # 去除干扰线
     size = im.size
@@ -33,11 +37,11 @@ def get_text(img_byte):
         for y in range(size[1]):
             px = pimx[x, y]
             if px[0] == 0 and px[1] == 0 and px[2] == 0:
-                pimx[x, y] = (255, 255, 255)
-    im = im.convert("L")
-    # im = ImageOps.invert(im).convert("1")
-    # old_width, old_height = im.size
-    # im.thumbnail((old_width*0.7, old_height*0.7))
+                pimx[x, y] = pimx[x, 0 if y == 0 else y - 1] 
+
+    im = ImageOps.invert(im).convert("1")
+    old_width, old_height = im.size
+    im.thumbnail((old_width*0.7, old_height*0.7))
 
     arr = np.array(im).sum(axis=0)
     print(arr)
