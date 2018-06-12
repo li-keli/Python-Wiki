@@ -13,7 +13,9 @@ import matplotlib as mpl
 侵权删
 """
 
+
 def down_img():
+    """下载验证码"""
     headers = {
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.79 Safari/537.36",
         "Host": "www.hqew.com",
@@ -26,6 +28,7 @@ def down_img():
 
 
 def get_text(img_byte):
+    """识别"""
     im = Image.open(BytesIO(img_byte))
     # 去底色
     im = im.point(lambda i: 255 if i > 180 else 0)
@@ -37,7 +40,7 @@ def get_text(img_byte):
         for y in range(size[1]):
             px = pimx[x, y]
             if px[0] == 0 and px[1] == 0 and px[2] == 0:
-                pimx[x, y] = pimx[x, 0 if y == 0 else y - 1] 
+                pimx[x, y] = pimx[x, 0 if y == 0 else y - 1]
 
     im = ImageOps.invert(im).convert("1")
     old_width, old_height = im.size
@@ -56,6 +59,7 @@ def get_text(img_byte):
     result = tesseract.image_to_string(region, 'eng', builder)
 
     if len(result.replace(' ', '')) == 4:
+        print(region.size)
         region.save("img/%s.jpg" % result)
 
 
