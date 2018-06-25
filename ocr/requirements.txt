@@ -1,0 +1,7 @@
+requests==2.18.4
+Flask==0.12.2
+Flask-Cors==3.0.3
+Pillow==5.0.0
+pyocr==0.5.1
+matplotlib==2.1.2
+numpy==1.14.0

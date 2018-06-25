@@ -7,6 +7,7 @@ from pyocr import tesseract
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib as mpl
+import os
 
 """
 华强电子 验证码识别
@@ -51,15 +52,17 @@ def get_text(img_byte):
 
     # 剪裁
     region = im.crop((36, 1, 105, 34))
-    # region.show()
 
     # OCR
-    builder = tesseract.builders.TextBuilder()
-    builder.tesseract_configs = ['-psm', '7', './digits']
+    builder = tesseract.builders.DigitBuilder()
+    digits_address = os.path.join(os.getcwd(), 'config/digits')
+    print("digits_address -> ", digits_address)
+    builder.tesseract_configs = ['-psm', '7', digits_address]
     result = tesseract.image_to_string(region, 'eng', builder)
 
-    if len(result.replace(' ', '')) == 4:
-        region.save("img/%s.jpg" % result)
-        return result
+    code_text = result.replace(' ', '')
+    print("out text -> ", code_text)
+    if len(code_text) == 4:
+        return str(code_text)
     else:
-        return 0
+        return "0"
