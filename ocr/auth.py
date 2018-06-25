@@ -59,9 +59,7 @@ def get_text(img_byte):
     result = tesseract.image_to_string(region, 'eng', builder)
 
     if len(result.replace(' ', '')) == 4:
-        print(region.size)
         region.save("img/%s.jpg" % result)
-
-
-if __name__ == "__main__":
-    down_img()
+        return result
+    else:
+        return 0
