@@ -11,7 +11,7 @@ import os
 def get_text(img_byte, card_modul):
     """识别卡号"""
     im = Image.open(BytesIO(img_byte))
-    
+    print(card_modul['typeId'], card_modul['name'])
     if card_modul['typeId'] == 1:
         # 剪裁
         region = im.crop(card_modul["cut"])

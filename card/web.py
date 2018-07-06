@@ -11,9 +11,8 @@ def upload_img():
         img = request.files['img'].read()
         target_temple = recognition_card_type(img)
         return get_text(img, target_temple)
-
     except Exception:
-        print("卡类型解析异常...")
+        print("imgcode error")
         return "0"
 
 
